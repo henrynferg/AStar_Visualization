@@ -1,6 +1,5 @@
 """
 Henry Ferguson -- the tests for the pathfinder algorithm.
-It passes the eye test when I run the full program, tests seem ok, too.
 """
 
 import Square
