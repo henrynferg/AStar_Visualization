@@ -231,7 +231,8 @@ class Interface(tk.Frame):
     def reset(self):
         """Executed when the 'reset' button is clicked. Sets all squares to
         be blue and passible, and redraws them on the canvas."""
-        global squareList
+        global already_executed, squareList
+        already_executed = False
         squareList = []
         self.resetInstructions()
         self.buildSquareList()
