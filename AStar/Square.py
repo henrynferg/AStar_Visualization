@@ -12,7 +12,7 @@ class Square:
         self.isImpassible = False # Can pass thru any square by default.
         self.parent = None # Node that was processed before the current one
         self.fCost = None # Distance from node to goal
-        self.gCost = None # Distance from node to parent
+        self.gCost = None # Distance from node to parent + parent gCost
 
     def __lt__(self, other):
         if isinstance(other, self.__class__):

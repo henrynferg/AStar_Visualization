@@ -1,15 +1,17 @@
 """
-Made by Henry Ferguson as the final project for Macalester's COMP 221 
-(Algorithm Design & Analysis) class, Fall 2016.
+Henry Ferguson
 
 A* is a pathfinding algorithm. It is designed to find a path through
-obstacles from a starting node to a goal node by minimizing 2 costs: a 'G' 
-cost and an 'H' cost. A node's H cost is how far away the node is from
-the goal node. A node's G cost, calculated when its neighbor is visited,
-is how far away the node is from its neighbor. These two values together
-make up a node's 'F' cost. The algorithm then uses a heap to get the
-neighboring node with the least F cost. When the algorithm gets the goal
-node, it then reconstructs the path by backtracking.
+obstacles from a starting node to a goal node by minimizing the sum of 
+2 costs: a 'G' cost and an 'H' cost. A node's H cost is how far away 
+the node is from the goal node. A node's G cost, calculated when its 
+neighbor is visited, is how far away the node is from its neighbor.
+G cost sums up over time, making longer paths punished more harshly.
+These two values together make up a node's 'F' cost. The algorithm 
+then uses a heap to get the neighboring node with the least F cost. 
+When the algorithm gets the goal node, it then reconstructs the path 
+by backtracking. A* (in this implementation) is guaranteed to find the 
+fastest path.
 """
 
 import Square, math, heapq
