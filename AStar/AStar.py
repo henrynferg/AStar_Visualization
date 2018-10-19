@@ -40,22 +40,26 @@ class Interface(tk.Frame):
         self.create_widgets()
         self.buildSquareList()
         self.makeSquares(squareList)
+        self.algorithm = "A*"
 
     def create_widgets(self):
         self.labelText = tk.StringVar()
         self.canvas = tk.Canvas(self.master, height=window_height, 
                                 width=window_length)
-        
-        self.run = tk.Button(self,width=9, text="A*", command=self.runAStar)
-        self.run.grid(row=3, column=0)
 
-        self.bfs = tk.Button(self, width=9, text="Brute-Force",
-                             command=self.runBFS)
-        self.bfs.grid(row=2, column=0)
+        self.run = tk.Button(self,width=9, text="Run", command=self.runPathfinder)
+        self.run.grid(row=3, column=0)
 
         self.reset_btn = tk.Button(self, width=9, text="Reset", 
                                 command=self.reset)
         self.reset_btn.grid(row=1, column=0)
+
+        self.dropdown_ops = tk.StringVar()
+        dd_ops = {"A*", "Breadth-first search", "Depth-first search"}
+        self.dropdown_ops.set("A*")
+
+        self.dropdown_menu = tk.OptionMenu(self, self.dropdown_ops, *dd_ops, command=self.getDropdownOp)
+        self.dropdown_menu.grid(row=2, column=0)
 
         self.labelText.set("Welcome! Click a square to set the starting\
  point.")
@@ -160,6 +164,9 @@ class Interface(tk.Frame):
                                         clickedSquare.y+clickedSquare.side,
                                         fill = clickedSquare.color)
 
+    def getDropdownOp(self, option):
+        self.algorithm = option
+
     def executeInstructions(self, event):
         """The 'step' variable determines what this function does:
             if the step variable is 1, clicking on a square assigns the
@@ -178,14 +185,22 @@ class Interface(tk.Frame):
             elif step == 2:
                 self.setGoal(clickedSquare)
                 self.labelText.set("Click and drag to set barriers. click\
- 'A*' to run the A* pathfinder or 'Brute-Force' to run a DFS pathfinder.\
+ 'Run' to run the currently selected pathfinder algorithm.\
  Right click to remove wall squares.")
 
             else:
                 self.makeImpassible(clickedSquare)
 
+    def runPathfinder(self):
+        if self.algorithm == "A*":
+            self.runAStar()
+        elif self.algorithm == "Breadth-first search":
+            self.runBFS()
+        elif self.algorithm == "Depth-first search":
+            self.runDFS()
+
     def runAStar(self):
-        """Executes when the 'A*' button is clicked. Runs the A star
+        """Executes when the 'A*' option is selected. Runs the A star
         algorithm and draws the found path in green."""
         global already_executed
         if already_executed:
@@ -201,7 +216,7 @@ class Interface(tk.Frame):
                 self.labelText.set("Could not find a valid path.")
 
     def runBFS(self):
-        """Executes when the 'Brute-Force' button is clicked. Runs the BFS
+        """Executes when the 'Breadth-first search' option is selected. Runs the BFS
         algorithm and draws the found path in green."""
         global already_executed
         if already_executed:
@@ -210,6 +225,23 @@ class Interface(tk.Frame):
         if start is not None and goal is not None:
             try:
                 path = AStarPathfinder.breadth_first_search(start, goal,
+                                                            self.canvas)
+                self.labelText.set("KEY: Red = checked and not path,\
+ green = path. Click 'Reset' to reset the board and go again.")
+                already_executed = True
+            except(Exception):
+                self.labelText.set("Could not find a valid path.")
+
+    def runDFS(self):
+        """Executes when the 'Depth-first search' option is selected. Runs the BFS
+        algorithm and draws the found path in green."""
+        global already_executed
+        if already_executed:
+            self.soft_reset()
+
+        if start is not None and goal is not None:
+            try:
+                path = AStarPathfinder.depthFirstSearch(start, goal,
                                                             self.canvas)
                 self.labelText.set("KEY: Red = checked and not path,\
  green = path. Click 'Reset' to reset the board and go again.")

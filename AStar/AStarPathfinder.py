@@ -15,6 +15,7 @@ fastest path.
 """
 
 import Square, math, heapq
+from collections import deque
 
 green = "#00F000"
 red = "#F00000"
@@ -56,10 +57,33 @@ def AStar(start, end, canvas):
 def breadth_first_search(start, end, canvas):
     """Finds a path from the start to the end by doing breadth-first search.
     Changes the colors of squares on CANVAS."""
-    work = [start]
+    work = deque([start])
     closedList = []
     while len(work) != 0:
-        current = work.pop(0)
+        current = work.popleft()
+        if current is end:
+            return makePath(current, canvas)
+
+        for neighbor in current.neighbors:
+            if neighbor not in closedList and neighbor not in work:
+                if not neighbor.isImpassible:
+                    neighbor.parent = current
+                    work.append(neighbor)
+
+        if current is not start:
+            current.color = red
+            canvas.create_rectangle(current.x, current.y,
+                                current.x+current.side,
+                                current.y+current.side,
+                                fill = current.color)
+        closedList.append(current)
+    raise("Couldn't find a valid path.")
+
+def depthFirstSearch(start, end, canvas):
+    work = deque([start])
+    closedList = []
+    while len(work) != 0:
+        current = work.pop()
         if current is end:
             return makePath(current, canvas)
 
