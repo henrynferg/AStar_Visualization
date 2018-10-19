@@ -8,7 +8,7 @@ heuristic. Each algorithm finds a path between the start square and the end squa
 
 This program is currently run through the AStar.py file.
 
-A GUI with three buttons and a canvas filled with blue squares should come up. Follow the instruction label on the GUI to run the program.
+A GUI with two buttons, a dropdown menu, and a canvas filled with blue squares should come up. Follow the instruction label on the GUI to run the program.
 
 There are many different square colors the program uses. Here are what they mean:
 
