@@ -29,7 +29,7 @@ def AStar(start, end, canvas):
     while len(workHeap) > 0:
         node = heapq.heappop(workHeap)
         for neighbor in node.neighbors:
-            neighbor.gCost = distance(node, neighbor)
+            neighbor.gCost = distance(node, neighbor) + node.gCost
             neighbor.fCost = distance(neighbor, end) + neighbor.gCost
             if (neighbor.isImpassible):
                 pass

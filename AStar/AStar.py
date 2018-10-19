@@ -53,9 +53,9 @@ class Interface(tk.Frame):
                              command=self.runBFS)
         self.bfs.grid(row=2, column=0)
 
-        self.reset = tk.Button(self, width=9, text="Reset", 
+        self.reset_btn = tk.Button(self, width=9, text="Reset", 
                                 command=self.reset)
-        self.reset.grid(row=1, column=0)
+        self.reset_btn.grid(row=1, column=0)
 
         self.labelText.set("Welcome! Click a square to set the starting\
  point.")
